@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="MERIDIAN 01 — a mechanical automatic watch. An interactive, scroll-driven showroom.">
+<meta name="theme-color" content="#08090a">
+<title>MERIDIAN 01 — Precision Redefined</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Typography. Change the two families here and in style.css (--font-display / --font-sans). -->
+<!-- Fonts load without blocking: a pending stylesheet also blocks script
+     execution, so a slow or unreachable font host would stall the whole
+     experience at the loader. media="print" until it arrives avoids that. -->
+<link rel="stylesheet" media="print" onload="this.media='all'"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200;300;400;500&display=swap">
+<noscript><link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200;300;400;500&display=swap"></noscript>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="is-loading">
+
+<!-- ============================================================
+     LOADER
+     ============================================================ -->
+<div class="loader" id="loader" role="status" aria-live="polite" aria-label="Loading">
+  <div class="loader__mark">
+    <span class="loader__word">MERIDIAN</span>
+    <span class="loader__bar"><i id="loaderFill"></i></span>
+    <span class="loader__pct" id="loaderPct">00</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     CUSTOM CURSOR (desktop only, disabled on touch / reduced motion)
+     ============================================================ -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <span class="cursor__dot"></span>
+  <span class="cursor__ring"></span>
+  <span class="cursor__label"></span>
+</div>
+
+<a class="skip-link" href="#intro">Skip to content</a>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#watch" aria-label="Meridian, back to top">
+    <span class="nav__brandMark">M</span><span class="nav__brandName">MERIDIAN</span>
+  </a>
+
+  <nav class="nav__links" id="navLinks" aria-label="Sections">
+    <a href="#watch" data-nav="watch">Watch</a>
+    <a href="#design" data-nav="design">Design</a>
+    <a href="#materials" data-nav="materials">Craft</a>
+    <a href="#movement" data-nav="movement">Movement</a>
+    <a href="#exploded" data-nav="exploded">Anatomy</a>
+    <a href="#specs" data-nav="specs">Specs</a>
+  </nav>
+
+  <div class="nav__right">
+    <!-- SOUND TOGGLE — keyboard accessible, minimal by design -->
+    <button class="sound" id="soundToggle" type="button" aria-pressed="false"
+            aria-label="Enable mechanical movement sound">
+      <span class="sound__orb"><i></i></span>
+      <span class="sound__label">SOUND <b id="soundState">OFF</b></span>
+    </button>
+    <button class="nav__burger" id="navBurger" type="button" aria-expanded="false"
+            aria-controls="navLinks" aria-label="Open menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<!-- ============================================================
+     THE STAGE — one persistent watch, driven by scroll.
+     Everything below scrolls past it; the watch never reloads.
+     ============================================================ -->
+<div class="stage" id="stage">
+  <div class="stage__light" aria-hidden="true"></div>
+
+  <div class="stage__inner" id="stageInner">
+    <div class="watch" id="watch">
+
+      <!-- OPTIONAL: drop a real photo next to index.html as watch-main.png.
+           If the file is missing it is hidden automatically and the
+           built-in 3D watch below is used instead. -->
+      <img class="watch__photo" data-optional src="watch-main.png"
+           alt="Meridian 01 luxury automatic watch">
+
+      <!-- BUILT-IN LAYERED WATCH — these are the exploded-view components.
+           Each layer accepts an optional image: part-crystal.png, part-bezel.png,
+           part-dial.png, part-hands.png, part-movement.png, part-case.png,
+           part-caseback.png  (drop them beside index.html to override). -->
+      <div class="watch__parts" id="parts" aria-hidden="true">
+
+        <div class="part part--strap" data-z="1"><span class="strap strap--top"></span><span class="strap strap--bot"></span></div>
+
+        <div class="part part--caseback" data-z="0" data-label="Caseback" data-copy="Sapphire exhibition back, six-screw. The movement, left visible on purpose.">
+          <img data-optional src="part-caseback.png" alt=""><div class="caseback"><span></span><em></em></div>
+        </div>
+
+        <div class="part part--case" data-z="1" data-label="Case" data-copy="41 mm of cold-forged 904L steel. Brushed planes, polished chamfers, no ornament.">
+          <img data-optional src="part-case.png" alt=""><div class="case"><b class="crown"></b></div>
+        </div>
+
+        <div class="part part--movement" data-z="2" data-label="Movement" data-copy="Calibre M-01. Automatic, 31 jewels, 28,800 vibrations per hour.">
+          <img data-optional src="part-movement.png" alt="">
+          <div class="movement">
+            <span class="mvt__plate"></span>
+            <span class="mvt__bridge mvt__bridge--a"></span>
+            <span class="mvt__bridge mvt__bridge--b"></span>
+            <span class="mvt__wheel mvt__wheel--1"></span>
+            <span class="mvt__wheel mvt__wheel--2"></span>
+            <span class="mvt__balance"></span>
+            <span class="mvt__jewel" style="--jx:-64px;--jy:-38px"></span>
+            <span class="mvt__jewel" style="--jx:52px;--jy:-56px"></span>
+            <span class="mvt__jewel" style="--jx:-30px;--jy:62px"></span>
+            <span class="mvt__jewel" style="--jx:70px;--jy:34px"></span>
+            <span class="mvt__rotor"></span>
+          </div>
+        </div>
+
+        <div class="part part--dial" data-z="3" data-label="Dial" data-copy="Galvanic anthracite, sunray-brushed. Applied indices, no printing that isn't needed.">
+          <img data-optional src="part-dial.png" alt="">
+          <div class="dial">
+            <span class="dial__face"></span>
+            <span class="dial__minutes"></span>
+            <span class="dial__hours"></span>
+            <span class="dial__text">MERIDIAN<em>AUTOMATIC</em></span>
+            <span class="dial__sub"><i></i></span>
+          </div>
+        </div>
+
+        <div class="part part--hands" data-z="4" data-label="Hands &amp; Indices" data-copy="Rhodium-plated, hand-polished, filled with slow-decay luminous compound.">
+          <img data-optional src="part-hands.png" alt="">
+          <div class="hands">
+            <span class="hand hand--hour"></span>
+            <span class="hand hand--min"></span>
+            <span class="hand hand--sec"></span>
+            <span class="hand__cap"></span>
+          </div>
+        </div>
+
+        <div class="part part--bezel" data-z="5" data-label="Bezel" data-copy="High-density ceramic, fired at 1,600°C. Colour that will outlive the owner.">
+          <img data-optional src="part-bezel.png" alt=""><div class="bezel"></div>
+        </div>
+
+        <div class="part part--crystal" data-z="6" data-label="Crystal" data-copy="Box sapphire, double anti-reflective. Clarity without compromise.">
+          <img data-optional src="part-crystal.png" alt=""><div class="crystal"></div>
+        </div>
+
+      </div><!-- /.watch__parts -->
+
+    </div>
+
+    <!-- HOTSPOTS — appear during the Design act -->
+    <div class="hotspots" id="hotspots">
+        <button class="hot" type="button" style="--hx:50%;--hy:16%" data-title="Ceramic Bezel"
+          data-text="High-density ceramic, fired and diamond-polished. Scratch-resistant, colour-stable for decades." aria-label="Ceramic bezel detail" aria-expanded="false"></button>
+        <button class="hot" type="button" style="--hx:96%;--hy:50%" data-title="Screw-Down Crown"
+          data-text="Triple-gasket, screw-down. Seals the case to 100 metres and winds the mainspring by hand." aria-label="Crown detail" aria-expanded="false"></button>
+        <button class="hot" type="button" style="--hx:38%;--hy:63%" data-title="Sunray Dial"
+          data-text="Galvanic anthracite with a sunray brush that shifts from graphite to silver as light moves." aria-label="Dial detail" aria-expanded="false"></button>
+        <button class="hot" type="button" style="--hx:12%;--hy:70%" data-title="Forged Case"
+          data-text="904L steel, cold-forged then milled from solid. Brushed surfaces, polished chamfers." aria-label="Case detail" aria-expanded="false"></button>
+    </div>
+
+    <!-- EXPLODED-VIEW LABELS — filled by script.js from the part data attributes -->
+    <div class="exlabels" id="exlabels" aria-hidden="true"></div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ========================================================
+       1 — HERO
+       ======================================================== -->
+  <section class="act hero" id="watch" data-stage="hero">
+    <div class="hero__inner">
+      <p class="eyebrow reveal">Meridian <span>—</span> Calibre M-01</p>
+      <h1 class="hero__title">
+        <span class="line reveal">Precision</span>
+        <span class="line reveal">Redefined.</span>
+      </h1>
+      <p class="hero__sub reveal">A mechanical masterpiece engineered for those<br>who appreciate time differently.</p>
+    </div>
+    <a class="hero__scroll reveal" href="#intro"><span>EXPLORE</span><i></i></a>
+  </section>
+
+  <!-- ========================================================
+       2 — INTRODUCTION
+       ======================================================== -->
+  <section class="act intro" id="intro" data-stage="intro">
+    <div class="wrap">
+      <h2 class="section-kicker reveal">Meet the watch</h2>
+      <p class="statement">
+        <span class="line reveal">Designed around one principle:</span>
+        <span class="line reveal em">Nothing unnecessary.</span>
+      </p>
+      <p class="statement statement--small">
+        <span class="line reveal">Every surface.</span>
+        <span class="line reveal">Every curve.</span>
+        <span class="line reveal">Every component.</span>
+        <span class="line reveal muted">Exists for a reason.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       3 — DESIGN (hotspots)
+       ======================================================== -->
+  <section class="act design" id="design" data-stage="design">
+    <div class="wrap wrap--side">
+      <h2 class="section-kicker reveal">Design</h2>
+      <h3 class="h-large reveal">Drawn once.<br>Refined <em>nine hundred</em> times.</h3>
+      <p class="body reveal">Forty-one millimetres of forged steel, held to a tolerance of two microns.
+        The case is not decorated — it is resolved. Every chamfer exists to catch a single line of light,
+        and nothing else.</p>
+      <p class="hint reveal" data-desktop>Explore the marked points on the watch.</p>
+      <div class="hot-readout" id="hotReadout" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       4 — MATERIALS
+       ======================================================== -->
+  <section class="act materials" id="materials" data-stage="materials">
+    <!-- Hold the watch recessed for the whole section, not just its midpoint. -->
+    <span class="beat" data-stage="materials" style="top:12%" aria-hidden="true"></span>
+    <span class="beat" data-stage="materials" style="top:88%" aria-hidden="true"></span>
+    <div class="wrap">
+      <h2 class="section-kicker reveal">Materials</h2>
+      <h3 class="h-large reveal">Four substances.<br>No compromises.</h3>
+
+      <div class="mats">
+        <!-- Optional images: material-sapphire.png / -steel.png / -ceramic.png / -leather.png -->
+        <article class="mat reveal" tabindex="0" data-mat="sapphire">
+          <div class="mat__vis"><img data-optional src="material-sapphire.png" alt=""><span class="mat__css mat__css--sapphire"></span></div>
+          <div class="mat__meta"><h4>Sapphire Crystal</h4><p class="mat__lead">Clarity without compromise.</p>
+            <p class="mat__body">A virtually scratch-resistant surface protecting the world beneath it. Double anti-reflective coating removes the glass from the equation entirely.</p>
+            <span class="mat__idx">01</span></div>
+        </article>
+
+        <article class="mat reveal" tabindex="0" data-mat="steel">
+          <div class="mat__vis"><img data-optional src="material-steel.png" alt=""><span class="mat__css mat__css--steel"></span></div>
+          <div class="mat__meta"><h4>904L Stainless Steel</h4><p class="mat__lead">Denser. Brighter. Harder to work.</p>
+            <p class="mat__body">A superalloy borrowed from chemical engineering. It resists corrosion, holds a mirror polish, and punishes anyone who machines it carelessly.</p>
+            <span class="mat__idx">02</span></div>
+        </article>
+
+        <article class="mat reveal" tabindex="0" data-mat="ceramic">
+          <div class="mat__vis"><img data-optional src="material-ceramic.png" alt=""><span class="mat__css mat__css--ceramic"></span></div>
+          <div class="mat__meta"><h4>High-Density Ceramic</h4><p class="mat__lead">Colour that does not age.</p>
+            <p class="mat__body">Fired at 1,600°C and diamond-polished. The bezel will not scratch, fade, or discolour — not in ten years, not in fifty.</p>
+            <span class="mat__idx">03</span></div>
+        </article>
+
+        <article class="mat reveal" tabindex="0" data-mat="leather">
+          <div class="mat__vis"><img data-optional src="material-leather.png" alt=""><span class="mat__css mat__css--leather"></span></div>
+          <div class="mat__meta"><h4>Vegetable-Tanned Leather</h4><p class="mat__lead">It begins to record you.</p>
+            <p class="mat__body">Tanned slowly with tree bark, never chrome. Within a year the strap carries a patina no two owners will ever share.</p>
+            <span class="mat__idx">04</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       5 — CRAFT
+       ======================================================== -->
+  <section class="act craft" id="craft" data-stage="craft">
+    <div class="wrap wrap--side">
+      <h2 class="section-kicker reveal">Craft</h2>
+      <h3 class="h-large reveal">Eleven weeks.<br>One watch.</h3>
+      <ol class="steps">
+        <li class="reveal"><b>01</b><span>Case forged, milled, then finished by hand across nine distinct grains.</span></li>
+        <li class="reveal"><b>02</b><span>Movement assembled, disassembled, and assembled again after oiling.</span></li>
+        <li class="reveal"><b>03</b><span>Regulated in five positions over fourteen days.</span></li>
+        <li class="reveal"><b>04</b><span>Cased, sealed, pressure-tested, then left to run alone for a fortnight.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       6 — MOVEMENT (the dial dissolves on the stage)
+       ======================================================== -->
+  <section class="act movement" id="movement" data-stage="movement">
+    <div class="wrap wrap--side">
+      <h2 class="section-kicker reveal">The Movement</h2>
+      <h3 class="h-large reveal">The Heart</h3>
+      <p class="body reveal">Inside the case lies a precision mechanical movement engineered to keep
+        every second accountable. No battery. No circuit. Only a coiled spring, released
+        twenty-eight thousand eight hundred times an hour.</p>
+
+      <div class="figures">
+        <div class="fig reveal"><b class="count" data-to="72" data-suffix=" H">0</b><span>Power reserve</span></div>
+        <div class="fig reveal"><b class="count" data-to="28800" data-format="comma">0</b><span>Vibrations / hour</span></div>
+        <div class="fig reveal"><b class="count" data-to="31">0</b><span>Jewels</span></div>
+        <div class="fig reveal"><b class="count" data-to="2" data-prefix="±" data-suffix=" s">0</b><span>Deviation / day</span></div>
+      </div>
+      <p class="caption reveal">Calibre M-01 · bidirectional rotor · free-sprung balance · Swiss lever escapement</p>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       7 — EXPLODED VIEW
+       ======================================================== -->
+  <section class="act exploded" id="exploded" data-stage="exploded">
+    <div class="wrap wrap--top">
+      <h2 class="section-kicker reveal">Anatomy</h2>
+      <h3 class="h-large reveal">Seven layers,<br>held in tension.</h3>
+    </div>
+    <!-- Two beat markers hold the watch fully exploded across this whole
+         section, instead of it opening and closing at a single scroll point. -->
+    <div class="exploded__spacer" aria-hidden="true">
+      <span class="beat" data-stage="exploded" style="top:22%"></span>
+      <span class="beat" data-stage="exploded" style="top:82%"></span>
+    </div>
+    <!-- Accessible text equivalent of the animated exploded view -->
+    <ul class="exploded__list wrap" id="explodedList"></ul>
+  </section>
+
+  <!-- ========================================================
+       8 — SPECIFICATIONS
+       ======================================================== -->
+  <section class="act specs" id="specs" data-stage="specs">
+    <span class="beat" data-stage="specs" style="top:14%" aria-hidden="true"></span>
+    <span class="beat" data-stage="specs" style="top:86%" aria-hidden="true"></span>
+    <div class="wrap">
+      <h2 class="section-kicker reveal">Specifications</h2>
+      <!-- EDIT THE WATCH SPECS HERE -->
+      <dl class="spec">
+        <div class="spec__row reveal"><dt>Case</dt><dd>41 mm</dd><dd class="spec__note">904L forged steel</dd></div>
+        <div class="spec__row reveal"><dt>Thickness</dt><dd>11.2 mm</dd><dd class="spec__note">Box sapphire profile</dd></div>
+        <div class="spec__row reveal"><dt>Water resistance</dt><dd>100 m</dd><dd class="spec__note">Screw-down crown</dd></div>
+        <div class="spec__row reveal"><dt>Crystal</dt><dd>Sapphire</dd><dd class="spec__note">Double anti-reflective</dd></div>
+        <div class="spec__row reveal"><dt>Movement</dt><dd>Automatic</dd><dd class="spec__note">Calibre M-01, 31 jewels</dd></div>
+        <div class="spec__row reveal"><dt>Frequency</dt><dd>28,800 vph</dd><dd class="spec__note">4 Hz, free-sprung</dd></div>
+        <div class="spec__row reveal"><dt>Power reserve</dt><dd>72 hours</dd><dd class="spec__note">Bidirectional winding</dd></div>
+        <div class="spec__row reveal"><dt>Strap</dt><dd>Leather</dd><dd class="spec__note">Vegetable-tanned, quick-release</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       9 — QUOTE
+       ======================================================== -->
+  <section class="act quote" id="philosophy" data-stage="quote">
+    <blockquote class="quote__text">
+      <span class="line reveal">Time is not measured.</span>
+      <span class="line reveal em">It is experienced.</span>
+    </blockquote>
+  </section>
+
+  <!-- ========================================================
+       10 — FINAL
+       ======================================================== -->
+  <section class="act final" id="final" data-stage="final">
+    <div class="final__inner">
+      <h2 class="h-huge"><span class="line reveal">Precision,</span><span class="line reveal em">crafted to last.</span></h2>
+      <a class="cta reveal" href="#watch"><span>DISCOVER THE WATCH</span><i></i></a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>MERIDIAN 01</span>
+    <span>Calibre M-01 · Automatic</span>
+    <span>An interactive demonstration</span>
+  </footer>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
